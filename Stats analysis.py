@@ -24,15 +24,17 @@ class measurements:
         # Resetting the indices so everything is sequential
         self.dataframe.reset_index(drop=True,inplace=True)
         ## Renaming columns and recording the target values
+        self.tool_used = {}
         self.targets = {}
         self.tolerances = {}
         for i in x.dataframe:
             name = x.dataframe.iloc[0][i]
-            self.targets[name] = (x.dataframe.iloc[1][i])
-            self.tolerances[name] = (str(x.dataframe.iloc[2][i]))
+            self.tool_used[name] = (x.dataframe.iloc[1][i])
+            self.targets[name] = (x.dataframe.iloc[2][i])
+            self.tolerances[name] = (str(x.dataframe.iloc[3][i]))
             self.dataframe.rename(columns={i:name},inplace=True)
         ## Dropping the standard header and resetting indices once more, renaming first column
-        self.dataframe.drop(axis=0, index=[0,1,2], inplace=True)
+        self.dataframe.drop(axis=0, index=[0,1,2,3], inplace=True)
         self.dataframe.rename(columns={'Dimension':'Item'},inplace=True)
         self.dataframe.reset_index(drop=True, inplace=True)
         del self.targets['Dimension']
@@ -137,6 +139,6 @@ class measurements:
 
 
 if __name__ == "__main__":
-    x = measurements('Z149A3')
-    x.data_in(r'C:\Users\inspect\Desktop\Z149A3 top plate inspection report.xlsx', 'F:O', sheet_name=0)
+    x = measurements('R334A0')
+    x.data_in(r'C:\Users\inspect\Desktop\R334A0 Mold Body inspection report.xlsx', 'F:R', sheet_name=0)
     x.plot_all()
